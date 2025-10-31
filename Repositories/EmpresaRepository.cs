@@ -13,8 +13,6 @@ namespace EjerciciosORM.Repositories
             _context = context;
         }
 
-        // 1️⃣ Consultar empleados
-
         public async Task<List<Empleados>> ObtenerTodosLosEmpleadosAsync()
         {
             return await _context.Empleados.ToListAsync();
@@ -25,23 +23,19 @@ namespace EjerciciosORM.Repositories
             return await _context.Empleados.CountAsync();
         }
 
-        public async Task<Empleados> ObtenerEmpleadoPorIDAsync(int empleadoID)
+        public async Task<Empleados> ObtenerEmpleadoPorIDAsync(int id)
         {
-            return await _context.Empleados.FindAsync(empleadoID);
+            return await _context.Empleados.FirstOrDefaultAsync(e => e.EmpleadoID == id);
         }
 
-        public async Task<List<Empleados>> ObtenerEmpleadosPorNombreAsync(string nombre)
+        public async Task<Empleados> ObtenerEmpleadoPorNombreAsync(string nombre)
         {
-            return await _context.Empleados
-                .Where(e => e.Nombre.Contains(nombre) || e.Apellido.Contains(nombre))
-                .ToListAsync();
+            return await _context.Empleados.FirstOrDefaultAsync(e => e.Nombre.Contains(nombre) || e.Apellido.Contains(nombre));
         }
 
-        public async Task<List<Empleados>> ObtenerEmpleadosPorTituloAsync(string titulo)
+        public async Task<Empleados> ObtenerEmpleadoPorTituloAsync(string titulo)
         {
-            return await _context.Empleados
-                .Where(e => e.Titulo == titulo)
-                .ToListAsync();
+            return await _context.Empleados.FirstOrDefaultAsync(e => e.Titulo == titulo);
         }
 
         public async Task<Empleados> ObtenerEmpleadoPorPaisAsync(string pais)
@@ -51,53 +45,36 @@ namespace EjerciciosORM.Repositories
 
         public async Task<List<Empleados>> ObtenerTodosLosEmpleadosPorPaisAsync(string pais)
         {
-            return await _context.Empleados
-                .Where(e => e.Pais == pais)
-                .ToListAsync();
+            return await _context.Empleados.Where(e => e.Pais == pais).ToListAsync();
         }
 
         public async Task<Empleados> ObtenerEmpleadoMasGrandeAsync()
         {
-            return await _context.Empleados
-                .OrderBy(e => e.FechaNac)
-                .FirstOrDefaultAsync();
+            return await _context.Empleados.OrderBy(e => e.FechaNac).FirstOrDefaultAsync();
         }
 
-        // 2️⃣ Estadísticas
-
-        public async Task<List<object>> ObtenerCantidadEmpleadosPorTituloAsync()
+        public async Task<List<object>> ObtenerCantidadEmpleadosPorTitulosAsync()
         {
-            return await _context.Empleados
-                .GroupBy(e => e.Titulo)
+            var resultado = await _context.Empleados.GroupBy(e => e.Titulo)
                 .Select(g => new
                 {
                     Titulo = g.Key,
                     Cantidad = g.Count()
                 })
-                .ToListAsync<object>();
+                .ToListAsync();
+
+            return resultado.Cast<object>().ToList();
         }
 
-        // 3️⃣ Productos
 
-        public async Task<List<object>> ObtenerProductosConCategoriaAsync()
+        public async Task<List<Productos>> ObtenerProductosConCategoriaAsync()
         {
-            return await _context.Productos
-                .Include(p => p.Categoria)
-                .Select(p => new
-                {
-                    p.ProductoID,
-                    p.NombreProducto,
-                    Categoria = p.Categoria.NombreCategoria,
-                    p.Precio
-                })
-                .ToListAsync<object>();
+            return await _context.Productos.Include(p => p.Categoria).ToListAsync();
         }
 
         public async Task<List<Productos>> ObtenerProductosQueContienenAsync(string palabra)
         {
-            return await _context.Productos
-                .Where(p => p.NombreProducto.Contains(palabra))
-                .ToListAsync();
+            return await _context.Productos.Where(p => p.NombreProducto.Contains(palabra)).Include(p => p.Categoria).ToListAsync();
         }
     }
 }
