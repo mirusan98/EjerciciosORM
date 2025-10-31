@@ -9,7 +9,5 @@
         public string Pais { get; set; }
         public DateTime FechaNac { get; set; }
 
-        // Propiedad calculada (opcional)
-        public string FullName => $"{Nombre} {Apellido}";
     }
 }

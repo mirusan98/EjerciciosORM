@@ -6,9 +6,7 @@
         public string NombreProducto { get; set; }
         public int CategoriaID { get; set; }
         public decimal Precio { get; set; }
-        //public bool Discontinued { get; set; }
-
-        // Relación (opcional)
-        public Categorias Categoria { get; set; }
+        public Categorias? Categoria { get; set; }
+        // el ? es para indicar que puede ser nulo
     }
 }

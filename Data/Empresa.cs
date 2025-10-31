@@ -17,13 +17,6 @@ namespace EjerciciosORM.Data
         public DbSet<Productos> Productos { get; set; }
         public DbSet<Categorias> Categorias { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            // Opcional: configurar nombres de tablas si no coinciden con los de la BD
-            modelBuilder.Entity<Empleados>().ToTable("Empleados");
-            modelBuilder.Entity<Productos>().ToTable("Productos");
-            modelBuilder.Entity<Categorias>().ToTable("Categorias");
-        }
     }
 }
 

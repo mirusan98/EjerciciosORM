@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using EjerciciosORM.Models;
+﻿using EjerciciosORM.Models;
 
 namespace EjerciciosORM.Repositories
 {

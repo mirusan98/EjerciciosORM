@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using EjerciciosORM.Models;        // Modelos: Employees, Products, etc.
-using EjerciciosORM.Repositories;  // Interfaz del repositorio
+using EjerciciosORM.Models;
+using EjerciciosORM.Repositories;
 
 namespace EjerciciosORM.Controllers
 {
